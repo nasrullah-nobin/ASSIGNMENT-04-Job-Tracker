@@ -31,7 +31,9 @@
         </div>
         <div class="bg-white p-5 rounded-2xl">
           <p class="text-sm">Interview</p>
-          <p id="interview-count" class="text-2xl font-bold text-green-500">0</p>
+          <p id="interview-count" class="text-2xl font-bold text-green-500">
+            0
+          </p>
         </div>
         <div class="bg-white p-5 rounded-2xl">
           <p class="text-sm">Rejected</p>
@@ -46,10 +48,37 @@
         <p class="text-base text-gray-400 font-bold"><span>0</span> jobs</p>
       </div>
       <div class="buttons flex gap-5">
-        <button class="btn btn-info">All</button>
-        <button class="btn">Interview</button>
-        <button class="btn">Rejected</button>
+        <button
+          onclick="filteredBtn('all-filter-btn')"
+          id="all-filter-btn"
+          class="btn btn-info"
+        >
+          All
+        </button>
+        <button
+          onclick="filteredBtn('interview-filter-btn')"
+          id="interview-filter-btn"
+          class="btn"
+        >
+          Interview
+        </button>
+        <button
+          onclick="filteredBtn('reject-filter-btn')"
+          id="reject-filter-btn"
+          class="btn"
+        >
+          Rejected
+        </button>
       </div>
+      <section id="filter-section" class="hidden">
+        <div class="bg-white py-28 rounded-lg text-center space-y-3">
+          <div class="w-28 mx-auto">
+            <img src="jobs.png" alt="no-jobs-emoji">
+          </div>
+          <h2 class="text-2xl font-semibold">No jobs available</h2>
+          <p class="text-base text-gray-400">Check back soon for new job opportunities</p>
+        </div>
+      </section>
       <article id="all-card-container" class="">
         <div class="bg-white p-6 rounded-lg flex justify-between">
           <div class="space-y-3 text-center md:text-left">
@@ -68,7 +97,9 @@
               <button class="btn btn-outline btn-error">Rejected</button>
             </div>
           </div>
-          <div class="rounded-full h-fit p-1 border border-gray-300 hidden sm:block">
+          <div
+            class="rounded-full h-fit p-1 border border-gray-300 hidden sm:block"
+          >
             <i class="fa-regular fa-trash-can"></i>
           </div>
         </div>

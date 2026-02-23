@@ -45,7 +45,12 @@ function filteredBtn(currentId) {
   allCardContainer.classList.add("hidden");
 
   if (currentId === "all-filter-btn")
+  {
     allCardContainer.classList.remove("hidden");
+    if(allCardContainer.children.length  === 0){
+      noJobsSection.classList.remove('hidden')
+    }
+  }
   else if (currentId === "interview-filter-btn") {
     filterSection.classList.remove("hidden");
     renderInterview();
@@ -71,6 +76,7 @@ isYes.addEventListener("click", function () {
   if (selectedCard) {
     selectedCard.remove();
     selectedCard = null;
+    if(allCardContainer.children.length=== 0) noJobsSection.classList.remove('hidden')
   }
   alertDiv.classList.add("hidden");
   updateCounts();

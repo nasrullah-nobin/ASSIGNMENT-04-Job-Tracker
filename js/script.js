@@ -20,7 +20,7 @@ function calculateCount() {
   totalCount.innerText = getTotalCount();
   interviewCount.innerText = interviewList.length;
   rejectCount.innerText = rejectList.length;
-  availableJobsCount.innerText = getTotalCount();
+  // availableJobsCount.innerText = getTotalCount();
 }
 calculateCount();
 
@@ -36,20 +36,49 @@ function filteredBtn(currentId) {
   rejectFilterBtn.classList.remove("btn-info");
   document.getElementById(currentId).classList.add("btn-info");
 
-  if (currentId === "all-filter-btn") {
+  filterSection.classList.add("hidden");
+  noJobsSection.classList.add("hidden");
+  allCardContainer.classList.add("hidden");
+
+  if (currentId === "all-filter-btn")
     allCardContainer.classList.remove("hidden");
-    noJobsSection.classList.add("hidden");
-  } else if (currentId === "interview-filter-btn") {
-    allCardContainer.classList.add("hidden");
-    noJobsSection.classList.remove("hidden");
+
+  if (currentId === "interview-filter-btn") {
+    if (interviewList.length > 0) {
+      filterSection.classList.remove("hidden");
+    } else {
+      noJobsSection.classList.remove("hidden");
+    }
     renderInterview();
-  } else if (currentId === "reject-filter-btn") {
-    allCardContainer.classList.add("hidden");
-    noJobsSection.classList.remove("hidden");
+  }
+
+  if (currentId === "reject-filter-btn") {
+    if (rejectList.length > 0) {
+      filterSection.classList.remove("hidden");
+    } else {
+      noJobsSection.classList.remove("hidden");
+    }
     renderReject();
   }
 }
-
+allCardContainer.addEventListener("click", function (event) {
+  const isDeleteBtn = event.target.classList.contains("delete-btn");
+  if (isDeleteBtn) {
+    const alertDiv = document.querySelector(".alert-div");
+    alertDiv.classList.remove("hidden");
+    alertDiv.addEventListener("click", function (e) {
+     const isYes = e.target.closest('#Yes');
+     const isNo = e.target.closest('#No');
+     if(isYes){
+     event.target.parentNode.parentNode.remove()
+     alertDiv.classList.add("hidden");
+     }
+     else if(isNo){
+      alertDiv.classList.add("hidden");
+     }
+    });
+  }
+});
 mainContainer.addEventListener("click", function (event) {
   if (event.target.classList.contains("interview-btn")) {
     const parentNode = event.target.parentNode.parentNode;
@@ -61,7 +90,8 @@ mainContainer.addEventListener("click", function (event) {
     const jobDescription =
       parentNode.querySelector(".job-description").innerText;
     parentNode.querySelector(".job-status").innerText = "INTERVIEW";
-    // jobStatus.className = "btn btn-outline btn-success";
+    // parentNode.querySelector(".job-status").className = "btn btn-outline btn-success";
+
     const cardInfo = {
       companyName,
       jobPosition,
@@ -81,7 +111,7 @@ mainContainer.addEventListener("click", function (event) {
     );
 
     if (currentFilter === "reject-filter-btn") {
-      renderReject();;
+      renderReject();
     }
 
     calculateCount();
@@ -94,8 +124,9 @@ mainContainer.addEventListener("click", function (event) {
     const jobStatus = parentNode.querySelector(".job-status").innerText;
     const jobDescription =
       parentNode.querySelector(".job-description").innerText;
+
     parentNode.querySelector(".job-status").innerText = "REJECTED";
-    // jobStatus.className = "btn  btn-outline btn-error";
+    // parentNode.querySelector(".job-status").className = "btn  btn-outline btn-error";
     const cardInfo = {
       companyName,
       jobPosition,
@@ -121,6 +152,11 @@ mainContainer.addEventListener("click", function (event) {
 });
 
 function renderInterview() {
+  if (interviewList.length === 0) {
+    noJobsSection.classList.remove("hidden");
+  } else {
+    availableJobsCount.innerText = interviewList.length;
+  }
   filterSection.innerHTML = "";
   interviewList.forEach((interview) => {
     const newDiv = document.createElement("div");
@@ -151,6 +187,11 @@ function renderInterview() {
 }
 
 function renderReject() {
+  if (rejectList.length === 0) {
+    noJobsSection.classList.remove("hidden");
+  } else {
+    availableJobsCount.innerText = rejectList.length;
+  }
   filterSection.innerHTML = "";
   rejectList.forEach((reject) => {
     const newDiv = document.createElement("div");

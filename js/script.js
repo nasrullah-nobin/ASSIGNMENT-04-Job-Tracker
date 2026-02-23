@@ -16,17 +16,21 @@ const allCardContainer = document.getElementById("all-card-container");
 const noJobsSection = document.getElementById("no-jobs-section");
 const filterSection = document.getElementById("filter-section");
 
-function calculateCount() {
-  totalCount.innerText = getTotalCount();
+function updateCounts() {
+  const total = (totalCount.innerText = allCardContainer.children.length);
   interviewCount.innerText = interviewList.length;
   rejectCount.innerText = rejectList.length;
-  // availableJobsCount.innerText = getTotalCount();
+  if (currentFilter === "all-filter-btn")
+    availableJobsCount.innerText = allCardContainer.children.length;
+  else if (currentFilter === "interview-filter-btn")
+    availableJobsCount.innerText = interviewList.length;
+  else if (currentFilter === "reject-filter-btn")
+    availableJobsCount.innerText = rejectList.length;
+  else {
+    availableJobsCount.innerText = total;
+  }
 }
-calculateCount();
-
-function getTotalCount() {
-  return document.getElementById("all-card-container").children.length;
-}
+updateCounts();
 
 function filteredBtn(currentId) {
   currentFilter = currentId;
@@ -42,43 +46,40 @@ function filteredBtn(currentId) {
 
   if (currentId === "all-filter-btn")
     allCardContainer.classList.remove("hidden");
-
-  if (currentId === "interview-filter-btn") {
-    if (interviewList.length > 0) {
-      filterSection.classList.remove("hidden");
-    } else {
-      noJobsSection.classList.remove("hidden");
-    }
+  else if (currentId === "interview-filter-btn") {
+    filterSection.classList.remove("hidden");
     renderInterview();
-  }
-
-  if (currentId === "reject-filter-btn") {
-    if (rejectList.length > 0) {
-      filterSection.classList.remove("hidden");
-    } else {
-      noJobsSection.classList.remove("hidden");
-    }
+  } else if (currentId === "reject-filter-btn") {
+    filterSection.classList.remove("hidden");
     renderReject();
   }
 }
+
+let selectedCard = null;
+const alertDiv = document.getElementById("alert-div");
+const isYes = document.getElementById("Yes");
+const isNO = document.getElementById("NO");
+
 allCardContainer.addEventListener("click", function (event) {
-  const isDeleteBtn = event.target.classList.contains("delete-btn");
-  if (isDeleteBtn) {
-    const alertDiv = document.querySelector(".alert-div");
+  if (event.target.classList.contains("delete-btn")) {
+    selectedCard = event.target.closest(".parent-card");
     alertDiv.classList.remove("hidden");
-    alertDiv.addEventListener("click", function (e) {
-     const isYes = e.target.closest('#Yes');
-     const isNo = e.target.closest('#No');
-     if(isYes){
-     event.target.parentNode.parentNode.remove()
-     alertDiv.classList.add("hidden");
-     }
-     else if(isNo){
-      alertDiv.classList.add("hidden");
-     }
-    });
   }
 });
+
+isYes.addEventListener("click", function () {
+  if (selectedCard) {
+    selectedCard.remove();
+    selectedCard = null;
+  }
+  alertDiv.classList.add("hidden");
+  updateCounts();
+});
+
+isNO.addEventListener("click", function () {
+  alertDiv.classList.add("hidden");
+});
+
 mainContainer.addEventListener("click", function (event) {
   if (event.target.classList.contains("interview-btn")) {
     const parentNode = event.target.parentNode.parentNode;
@@ -114,7 +115,7 @@ mainContainer.addEventListener("click", function (event) {
       renderReject();
     }
 
-    calculateCount();
+    updateCounts();
   } else if (event.target.classList.contains("reject-btn")) {
     const parentNode = event.target.parentNode.parentNode;
 
@@ -147,7 +148,7 @@ mainContainer.addEventListener("click", function (event) {
       renderInterview();
     }
 
-    calculateCount();
+    updateCounts();
   }
 });
 
@@ -178,7 +179,7 @@ function renderInterview() {
             </div>
           </div>
           <div
-            class="rounded-full h-fit p-1 border border-gray-300 hidden sm:block"
+            class="rounded-full btn btn-error btn-soft"
           >
             <i class="fa-regular fa-trash-can"></i>
           </div>`;
@@ -213,7 +214,7 @@ function renderReject() {
             </div>
           </div>
           <div
-            class="rounded-full h-fit p-1 border border-gray-300 hidden sm:block"
+            class="rounded-full btn btn-error btn-soft"
           >
             <i class="fa-regular fa-trash-can"></i>
           </div>`;

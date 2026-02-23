@@ -47,16 +47,20 @@ function filteredBtn(currentId) {
   if (currentId === "all-filter-btn")
   {
     allCardContainer.classList.remove("hidden");
+    updateCounts()
     if(allCardContainer.children.length  === 0){
       noJobsSection.classList.remove('hidden')
+      updateCounts()
     }
   }
   else if (currentId === "interview-filter-btn") {
     filterSection.classList.remove("hidden");
     renderInterview();
+    updateCounts()
   } else if (currentId === "reject-filter-btn") {
     filterSection.classList.remove("hidden");
     renderReject();
+    updateCounts()
   }
 }
 
@@ -97,7 +101,7 @@ mainContainer.addEventListener("click", function (event) {
     const jobDescription =
       parentNode.querySelector(".job-description").innerText;
     parentNode.querySelector(".job-status").innerText = "INTERVIEW";
-    // parentNode.querySelector(".job-status").className = "btn btn-outline btn-success";
+   
 
     const cardInfo = {
       companyName,

@@ -171,7 +171,7 @@ function renderInterview() {
   filterSection.innerHTML = "";
   interviewList.forEach((interview) => {
     const newDiv = document.createElement("div");
-    newDiv.className = "bg-white p-6 rounded-lg flex justify-between";
+    newDiv.className = "parent bg-white p-6 rounded-lg flex justify-between";
     newDiv.innerHTML = `
         <div class="space-y-3 text-center md:text-left">
             <h2 class="company-name text-lg font-semibold">${interview.companyName}</h2>
@@ -191,7 +191,7 @@ function renderInterview() {
           <div
             class="rounded-full btn btn-error btn-soft"
           >
-            <i class="fa-regular fa-trash-can"></i>
+            <i class="delete-btn fa-regular fa-trash-can"></i>
           </div>`;
     filterSection.appendChild(newDiv);
   });
@@ -206,7 +206,7 @@ function renderReject() {
   filterSection.innerHTML = "";
   rejectList.forEach((reject) => {
     const newDiv = document.createElement("div");
-    newDiv.className = "bg-white p-6 rounded-lg flex justify-between";
+    newDiv.className = "parent bg-white p-6 rounded-lg flex justify-between";
     newDiv.innerHTML = `
         <div class="space-y-3 text-center md:text-left">
             <h2 class="company-name text-lg font-semibold">${reject.companyName}</h2>
@@ -226,8 +226,11 @@ function renderReject() {
           <div
             class="rounded-full btn btn-error btn-soft"
           >
-            <i class="fa-regular fa-trash-can"></i>
+            <i class="delete-btn fa-regular fa-trash-can"></i>
           </div>`;
     filterSection.appendChild(newDiv);
   });
 }
+
+
+
